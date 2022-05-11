@@ -1,15 +1,20 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors')
 const app = express();
+const cookieParser = require('cookie-parser');
 
 
-app.use(cors());
-app.use(express.json());   // allows json objects to be posted
-app.use(express.urlencoded({ extended: true }));// allows json objects with strings and arrays
+app.use(cookieParser());
+app.use(cors({origin: 'http://localhost:3000', credentials:true }));
+app.use(express.json());   
+app.use(express.urlencoded({ extended: true }));
 
-require('./config/mongoose.config');  // importing mongoose config file so it will fire up the MongoDB server connection
-require('./routes/user.routes')(app); // we're importing the routes export
+require('./config/mongoose.config'); 
+require('./routes/user.routes')(app);
+require('./routes/comment.routes')(app);
 
 
-const port = 8000;
+const port = process.env.SERVER_PORT;
 app.listen(port, () => console.log(`Listening on port: ${port}`) );
