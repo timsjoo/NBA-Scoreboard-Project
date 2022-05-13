@@ -13,7 +13,7 @@ function App() {
           <Route element={<LoginRegister />} path={"/login"} />
           <Route element={<LoginRegister />} path={"/"} />
           <Route element={<Schedule />} path={"/test"} />
-          <Route element={<Game />} path={"/game"} />
+          <Route element={<Game />} path={"/game/:gameId"} />
         </Routes>
       </div>
     </BrowserRouter>

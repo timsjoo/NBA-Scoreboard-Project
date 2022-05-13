@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
-import { Box, Flex, Spacer, Image, Text, Heading, LinkBox, LinkOverlay} from '@chakra-ui/react';
+import { Box, Flex, Spacer, Image, Text, Heading, LinkBox, LinkOverlay } from '@chakra-ui/react';
 
 
 const ScheduleCard = (props) => {
@@ -32,7 +32,7 @@ const ScheduleCard = (props) => {
               width="75px"
               fontSize='xs'
             >
-              <LinkOverlay href="/game">
+              <LinkOverlay href={`/game/${gameObject.id}`}>
                 {gameObject.teams.home.name}
               </LinkOverlay>
             </Text>
