@@ -12,8 +12,9 @@ function App() {
         <Routes>
           <Route element={<LoginRegister />} path={"/login"} />
           <Route element={<LoginRegister />} path={"/"} />
-          <Route element={<Schedule />} path={"/test"} />
-          <Route element={<Game />} path={"/game/:gameId"} />
+          <Route element={<Schedule />} path={"/games"} />
+          <Route element={<Schedule />} path={"/home"} />
+          <Route element={<Game />} path={"/games/:gameId"} />
         </Routes>
       </div>
     </BrowserRouter>

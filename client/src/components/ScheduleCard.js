@@ -1,15 +1,15 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { Box, Flex, Spacer, Image, Text, Heading, LinkBox, LinkOverlay } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 
 const ScheduleCard = (props) => {
 
   const {gameObject} = props;
 
-
   return(
-    <LinkBox>
+    <Link to={`/games/${gameObject.id}`}>
       <Flex 
         maxW="450px"
         height="110px"
@@ -29,12 +29,10 @@ const ScheduleCard = (props) => {
               boxSize="50px"
             />
             <Text // Name
-              width="75px"
+              width="90px"
               fontSize='xs'
             >
-              <LinkOverlay href={`/game/${gameObject.id}`}>
                 {gameObject.teams.home.name}
-              </LinkOverlay>
             </Text>
             <Heading // Points
               width="35px"
@@ -42,6 +40,16 @@ const ScheduleCard = (props) => {
             >
               {gameObject.scores.home.points}
             </Heading>
+          </Flex>
+          <Flex flexDirection={'column'}>
+          {
+            gameObject.status.short === 1 ?
+              <Text fontSize='xs'>Scheduled</Text> :
+            gameObject.status.short === 2 ?
+              <Text fontSize='xs'>In Progress</Text> :
+              <Text fontSize='xs'>Finished</Text>
+          }
+          <Text fontSize='xs'>{gameObject.date.start}</Text>
           </Flex>
           <Flex // Right Side
             minW="125px"
@@ -54,7 +62,7 @@ const ScheduleCard = (props) => {
               {gameObject.scores.visitors.points}
             </Heading>
             <Text // Name
-              width="75px"
+              width="90px"
               fontSize='xs'
             >
               {gameObject.teams.visitors.name}
@@ -65,7 +73,8 @@ const ScheduleCard = (props) => {
           />
           </Flex>
       </Flex>
-    </LinkBox>
+    </Link>
+
   )
 }
 

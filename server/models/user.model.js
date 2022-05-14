@@ -43,7 +43,11 @@ const UserSchema = new mongoose.Schema({
   },
 
   favoriteTeam: {
-    type: Number
+    type: Number,
+    required: [
+      true,
+      "Please choose a favorite team"
+    ]
   },
 
 }, {timestamps: true});
@@ -67,6 +71,6 @@ UserSchema.pre('save', function(next) {
     });
 });
 
-UserSchema.plugin(uniqueValidator, {message: 'Must be unique'}); // Custom message for uniqueness validations
+UserSchema.plugin(uniqueValidator, {message: 'Already exists'}); // Custom message for uniqueness validations
 
 module.exports = mongoose.model("User", UserSchema);

@@ -79,11 +79,12 @@ const Register = (props) => {
             </FormControl>
             <FormControl id="favoriteTeam">
               <FormLabel>Favorite Team</FormLabel>
-                <Select placeholder='Select option'>
-                  <option value='option1'>Option 1</option>
-                  <option value='option2'>Option 2</option>
-                  <option value='option3'>Option 3</option>
+                <Select placeholder='Select option' name="favoriteTeam" value={user.favoriteTeam} onChange={handleChange}>
+                  <option value={1}>Option 1</option>
+                  <option value={2}>Option 2</option>
+                  <option value={3}>Option 3</option>
                 </Select>
+                { errors.favoriteTeam ? (<span>{errors.favoriteTeam.message} </span>) : null }
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
