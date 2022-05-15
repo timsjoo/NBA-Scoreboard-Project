@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Comments from "./Comments";
 import { Container, Flex, Box, Image, Heading , TableContainer,Table, Thead, Tbody,Tr, Th, Td, Accordion, AccordionButton, AccordionItem, AccordionPanel} from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 
@@ -52,7 +53,7 @@ const Scoreboard = (props) => {
   }, [])
 
   console.log(gamesArray);
-  console.log(playersStats);
+  // console.log(playersStats);
 
   return (
     <>
@@ -132,7 +133,7 @@ const Scoreboard = (props) => {
                         {
                           playersStats.map(player => {
                             return player.team.id === game.teams.home.id && player.min !== "0:00" && player.min !== null ?
-                              <Tr>
+                              <Tr key={player.player.id}>
                                 <Td fontSize="10px">{player.player.firstname} {player.player.lastname}</Td>
                                 <Td fontSize="10px">{player.min}</Td>
                                 <Td fontSize="10px">{player.points}</Td>
@@ -202,6 +203,7 @@ const Scoreboard = (props) => {
                 </AccordionItem>
               </Accordion>
             </Flex>
+            <Comments currentUserId="1" currentGameId={gameId} />
           </Container>
         );
       })}
