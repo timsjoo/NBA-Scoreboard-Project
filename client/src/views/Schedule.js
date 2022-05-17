@@ -1,17 +1,31 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import axios from 'axios';
-import ScheduleCard from './ScheduleCard';
-import { SimpleGrid, Container, Heading } from '@chakra-ui/react';
+import ScheduleCard from '../components/ScheduleCard';
+import { SimpleGrid, Container, Heading, Box, Flex } from '@chakra-ui/react';
 import DatePicker from 'react-date-picker';
+import Navbar from '../components/Navbar';
 
 const Schedule = (props) => {
 
   const [gamesArray, setGamesArray] = useState([]);
+  const [user, setUser] = useState({});
   // const [dayAfterGamesArray, setDayAfterGamesArray] = useState([]);
   const [value, setValue] = useState(new Date());
-
-
   const gameDate = value.toLocaleDateString('af-ZA');
+  // const gameDate = value.toUTCString();
+  // console.log(new Date(gameDate).getFullYear() + "-" + (new Date(gameDate).getMonth() + 1) +
+  //                                                "-" + new Date(gameDate).getDate())
+
+  useEffect(() => {
+    axios.get(`http://localhost:8000/api/users`,
+      { withCredentials: true }
+      )
+      .then((res)=> {
+        console.log(res.data);
+        setUser(res.data);
+      })
+      .catch((err)=>console.log(err))
+  }, [])
   
   // const gameDateObject = new Date(gameDate)
   // const optionsSecondDatePlusOne = new Date()
@@ -46,7 +60,6 @@ const Schedule = (props) => {
     }
   }), [gameDate] 
   )
-
   // const optionsSecond = useMemo(() => ({
   //   method: 'GET',
   //   url: 'https://api-nba-v1.p.rapidapi.com/games',
@@ -83,32 +96,55 @@ const Schedule = (props) => {
 
     //console.log(gamesArray)
     // console.log(dayAfterGamesArray)
-
+    console.log(gamesArray)
+    
+    
+    const favoriteTeamThenRender = () => {
+      const newGamesArray = gamesArray
+      newGamesArray.map((game, index) => game.teams.home.id === user.favoriteTeam|| game.teams.visitors.id === user.favoriteTeam ? newGamesArray.unshift(newGamesArray.splice(index, 1)[0]) : null )
+      console.log(newGamesArray)
+    }
+    favoriteTeamThenRender()
+    
   return(
-    <>
+    <Box bg= "background.dark" h="100%" width="100%">
+    <Box
+      h="100vh"
+      
+    >
+      <Navbar />
       <Container
-        mt="50px"
-        minWidth="1000px"
-        maxWidth="1500px"
+        
+        m="auto"
+        pb="80px"
+        px="40px"
+        minWidth="700px"
+        maxWidth="1600px"
+        backgroundColor={'background.dark'}
       >
-        <Heading mb="20px">Games</Heading>
+        <Flex flexDirection={'column'} align="center">
+        <Heading my="20px" color="#DBE8F8" fontFamily={'Lato, sans-serif'}>Games</Heading>
+        <Box bg="white" width="155.5px" p="0" mb="35px">
         <DatePicker onChange={setValue} value={value}/>
+        </Box>
+        </Flex>
         <SimpleGrid 
           columns={3} 
-          spacing={5}
-          mt="30px"
-          py="20px" 
+          py="20px"
           px="20px"
-          rounded='md' 
-          bg='#ddedf4'
-          minChildWidth="380px"
+          rounded='lg' 
+          minChildWidth="460px"
+          bg="background.slightDark"
+          spacingX={"30px"}
         >
+          
           {gamesArray.map((gameObject) => {
-          return <ScheduleCard key={gameObject.id} gameObject={gameObject} />
-        })}
+          return <ScheduleCard key={gameObject.id} gameObject={gameObject} user={user}/>
+          })}
         </SimpleGrid>
       </Container>
-    </>
+    </Box>
+    </Box>
   )
 }
 
